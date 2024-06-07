@@ -44,9 +44,10 @@ struct PenguinGameView: View {
                 }
             } else {
                 VStack {
-                    Text("Penguin Survival")
+                    Text("Don't Slip")
                         .font(.largeTitle)
                         .foregroundColor(.white)
+                        .padding(.bottom,120)
                     
                     Spacer()
                     
@@ -55,7 +56,7 @@ struct PenguinGameView: View {
                         Image("penguin") // Replace with a penguin image
                             .resizable()
                             .frame(width: 50, height: 50)
-                            .offset(x: penguinPosition, y: isJumping ? -50 : isFalling ? penguinOffset : 0)
+                            .offset(x: penguinPosition, y: isJumping ? -90 : isFalling ? penguinOffset : 0)
                             .animation(.easeInOut)
                             
                         
@@ -81,6 +82,7 @@ struct PenguinGameView: View {
 
                     Spacer()
                 }
+                .padding(.top,120)
             }
         }.onTapGesture {
             jump()
@@ -90,7 +92,7 @@ struct PenguinGameView: View {
     func updatePenguinPosition() {
         let tiltSensitivity: CGFloat = 100.0
         let newX = penguinPosition + CGFloat(motionManager.x) * tiltSensitivity
-        let maxX = (icebergWidth / 2) - 25.0 // Half the iceberg width minus half the penguin width
+        let maxX = (icebergWidth / 2) + 30// Half the iceberg width minus half the penguin width
 
         if abs(newX) < maxX {
             penguinPosition = newX
@@ -124,10 +126,10 @@ struct PenguinGameView: View {
 
     func triggerFall() {
         isFalling = true
-        withAnimation(.easeIn(duration: 1.0)) {
+        withAnimation(.easeIn(duration: 250.0)) {
             penguinOffset = 300 // Fall distance
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             gameOver = true
         }
     }
